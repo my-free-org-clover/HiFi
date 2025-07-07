@@ -19,6 +19,8 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     container_name:
       database
+    volumes:
+      - ./init-kong-db.sql:/docker-entrypoint-initdb.d/init-kong-db.sql
     networks:
       - intelegix-lab-net
   pgadmin:
@@ -26,8 +28,8 @@ services:
     ports:
       - "5050:80"
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
     networks:
       - intelegix-lab-net
     depends_on:
@@ -45,8 +47,8 @@ services:
       - 8444:8444
       - 8445:8445
     environment:
-      - KONG_DATABASE=${KONG_DATABASE}
-      - KONG_PG_HOST=${KONG_PG_HOST} # docker container name
+      - KONG_DATABASE=postgres
+      - KONG_PG_HOST=database # docker container name
       - KONG_PG_USER=${POSTGRES_USER}
       - KONG_PG_PASSWORD=${POSTGRES_PASSWORD}
       - KONG_PASSWORD=${KONG_PASSWORD}
@@ -54,7 +56,7 @@ services:
       - KONG_ADMIN_ACCESS_LOG=/dev/stdout
       - KONG_PROXY_ERROR_LOG=/dev/stderr
       - KONG_ADMIN_ERROR_LOG=/dev/stderr
-      - KONG_ADMIN_LISTEN=${KONG_ADMIN_LISTEN}
+      - KONG_ADMIN_LISTEN=0.0.0.0:8001,0.0.0.0:8444 ssl 
       - KONG_ADMIN_GUI_URL=${KONG_ADMIN_GUI_URL}
     command: sh -c "kong migrations bootstrap && kong start"
     networks:
