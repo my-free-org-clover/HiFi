@@ -162,3 +162,4 @@ cython_debug/
 #.idea/
 /postgres_data/
 /database-kong/
+frontend/node_modules/
