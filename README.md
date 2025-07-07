@@ -55,7 +55,29 @@ So, whether you’re decoding market signals, predicting trends, or optimizing p
 
 <p align="center">
   <img src="data/Multi-Agent Financial Analysis Tool.png" />
-</p> 
+</p>
+
+## Setup
+
+1. Copy the example environment file and adjust values as needed:
+
+```bash
+cp .env.example .env
+```
+
+Set database credentials in `.env`:
+
+```bash
+POSTGRES_USER=postgres
+POSTGRES_DB=hifidb
+POSTGRES_PASSWORD=secret
+```
+
+2. Launch the services (Postgres, Kong, etc.) with Docker Compose:
+
+```bash
+docker-compose -f docker-compose.yml up -d --build
+```
 
 ## 1. Project Architecture
 
